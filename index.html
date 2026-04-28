@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORIGEN — Café de Especialidad | Buenos Aires</title>
+  <meta name="description" content="Café de especialidad tostado a mano en Buenos Aires. Seleccionamos granos en fincas de altura de Colombia, Etiopía y Brasil. Descubrí tu blend." />
+  <meta property="og:title" content="ORIGEN — Café de Especialidad" />
+  <meta property="og:description" content="Del grano a tu taza. Sin atajos. Tostado artesanal en Buenos Aires." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       LOADING SCREEN
+  ══════════════════════════════════════════ -->
+  <div id="loader" aria-hidden="true" role="progressbar" aria-label="Cargando">
+    <div class="loader__inner">
+      <span class="loader__logo">ORIGEN</span>
+      <div class="loader__bar-track">
+        <div class="loader__bar" id="loader-bar"></div>
+      </div>
+      <span class="loader__count" id="loader-count">0%</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav id="nav" aria-label="Navegación principal">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="ORIGEN — ir al inicio">ORIGEN</a>
+      <button class="nav__hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="#origen" class="nav__link">Origen</a></li>
+        <li><a href="#blends" class="nav__link">Blends</a></li>
+        <li><a href="#cta" class="nav__link nav__link--cta">Descubrí tu blend</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO — SCROLL DRIVEN CANVAS
+  ══════════════════════════════════════════ -->
+  <section id="hero" aria-label="Hero — Del grano a tu taza">
+
+    <!-- Canvas fijo que dibuja los frames del video -->
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <!-- Overlay de gradiente para profundidad -->
+    <div class="hero__gradient-overlay" aria-hidden="true"></div>
+
+    <!-- Texto superpuesto sobre el canvas -->
+    <div class="hero__content" id="hero-content">
+      <div class="hero__eyebrow" data-reveal data-reveal-delay="0">
+        <span class="hero__line"></span>
+        <span>Buenos Aires · Tostado Artesanal</span>
+      </div>
+      <h1 class="hero__headline" data-reveal data-reveal-delay="1">
+        Del grano<br><em>a tu taza.</em><br>Sin atajos.
+      </h1>
+      <p class="hero__subtitle" data-reveal data-reveal-delay="2">
+        Café de especialidad tostado a mano en Buenos Aires
+      </p>
+      <div class="hero__scroll-hint" aria-label="Seguí scrolleando" data-reveal data-reveal-delay="3">
+        <span class="hero__scroll-text">Scrolleá para descubrir</span>
+        <div class="hero__scroll-arrow" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Este div define la altura del "rail" de scroll -->
+    <div id="scroll-driver" aria-hidden="true"></div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 2 — CADA TAZA TIENE HISTORIA
+  ══════════════════════════════════════════ -->
+  <section id="origen" class="section section--origen" aria-labelledby="origen-title">
+    <div class="container">
+      <div class="origen__layout">
+
+        <div class="origen__deco" aria-hidden="true">
+          <div class="origen__deco-line"></div>
+          <span class="origen__deco-numeral">I</span>
+        </div>
+
+        <div class="origen__content">
+          <span class="section__eyebrow" data-reveal>Nuestra historia</span>
+          <h2 class="section__title" id="origen-title" data-reveal data-reveal-delay="1">
+            Cada taza<br><em>tiene historia</em>
+          </h2>
+          <p class="origen__body" data-reveal data-reveal-delay="2">
+            Seleccionamos granos en fincas de altura de Colombia, Etiopía y Brasil. Tostamos en lotes pequeños, sin apuro, para que cada blend tenga carácter propio. No hacemos café para todos — hacemos café para los que notan la diferencia.
+          </p>
+          <div class="origen__stats" data-reveal data-reveal-delay="3">
+            <div class="origen__stat">
+              <span class="origen__stat-number">3</span>
+              <span class="origen__stat-label">Orígenes<br>seleccionados</span>
+            </div>
+            <div class="origen__stat-divider" aria-hidden="true"></div>
+            <div class="origen__stat">
+              <span class="origen__stat-number">100%</span>
+              <span class="origen__stat-label">Tostado<br>artesanal</span>
+            </div>
+            <div class="origen__stat-divider" aria-hidden="true"></div>
+            <div class="origen__stat">
+              <span class="origen__stat-number">BA</span>
+              <span class="origen__stat-label">Buenos<br>Aires</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 3 — ENCONTRÁ TU BLEND
+  ══════════════════════════════════════════ -->
+  <section id="blends" class="section section--blends" aria-labelledby="blends-title">
+    <div class="container">
+
+      <div class="blends__header">
+        <span class="section__eyebrow" data-reveal>Nuestra selección</span>
+        <h2 class="section__title" id="blends-title" data-reveal data-reveal-delay="1">
+          Encontrá<br><em>tu blend</em>
+        </h2>
+      </div>
+
+      <div class="blends__grid" role="list">
+
+        <!-- Volcánico -->
+        <article class="blend-card" role="listitem" data-reveal data-reveal-delay="1">
+          <div class="blend-card__numeral" aria-hidden="true">I</div>
+          <div class="blend-card__inner">
+            <div class="blend-card__tag">Intenso</div>
+            <h3 class="blend-card__name">Volcánico</h3>
+            <p class="blend-card__notes">Cacao amargo · Tabaco · Cuerpo denso</p>
+            <p class="blend-card__desc">
+              Notas de cacao amargo y tabaco. Cuerpo denso, final prolongado. Para los que toman el café en serio.
+            </p>
+            <div class="blend-card__footer">
+              <div class="blend-card__intensity" aria-label="Intensidad: 5 de 5">
+                <span class="blend-card__intensity-label">Intensidad</span>
+                <div class="blend-card__dots" aria-hidden="true">
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Serranía -->
+        <article class="blend-card blend-card--featured" role="listitem" data-reveal data-reveal-delay="2">
+          <div class="blend-card__numeral" aria-hidden="true">II</div>
+          <div class="blend-card__inner">
+            <div class="blend-card__tag">Destacado</div>
+            <h3 class="blend-card__name">Serranía</h3>
+            <p class="blend-card__notes">Floral · Cítrico · Acidez brillante</p>
+            <p class="blend-card__desc">
+              Floral, cítrico, con acidez brillante. Un perfil limpio que se disfruta sin azúcar.
+            </p>
+            <div class="blend-card__footer">
+              <div class="blend-card__intensity" aria-label="Intensidad: 3 de 5">
+                <span class="blend-card__intensity-label">Intensidad</span>
+                <div class="blend-card__dots" aria-hidden="true">
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--empty"></span>
+                  <span class="dot dot--empty"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Nocturno -->
+        <article class="blend-card" role="listitem" data-reveal data-reveal-delay="3">
+          <div class="blend-card__numeral" aria-hidden="true">III</div>
+          <div class="blend-card__inner">
+            <div class="blend-card__tag">Suave</div>
+            <h3 class="blend-card__name">Nocturno</h3>
+            <p class="blend-card__notes">Caramelo · Nuez · Toque ahumado</p>
+            <p class="blend-card__desc">
+              Caramelo, nuez y un toque ahumado. Suave pero con presencia. Ideal para cerrar el día.
+            </p>
+            <div class="blend-card__footer">
+              <div class="blend-card__intensity" aria-label="Intensidad: 4 de 5">
+                <span class="blend-card__intensity-label">Intensidad</span>
+                <div class="blend-card__dots" aria-hidden="true">
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--full"></span>
+                  <span class="dot dot--empty"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 4 — CTA FINAL
+  ══════════════════════════════════════════ -->
+  <section id="cta" class="section section--cta" aria-labelledby="cta-title">
+    <div class="cta__bg-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cta__inner">
+        <span class="section__eyebrow cta__eyebrow" data-reveal>El próximo paso</span>
+        <h2 class="cta__title" id="cta-title" data-reveal data-reveal-delay="1">
+          Tu próximo café<br><em>no debería ser</em><br>cualquiera.
+        </h2>
+        <a href="#blends" class="btn btn--cta" id="cta-btn" data-reveal data-reveal-delay="2" aria-label="Descubrí tu blend de café ORIGEN">
+          <span class="btn__text">Descubrí tu blend</span>
+          <span class="btn__shimmer" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <span class="footer__logo">ORIGEN</span>
+        <p class="footer__tagline">Café de Especialidad</p>
+        <p class="footer__location">Buenos Aires · <time datetime="2025">2025</time></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/scroll-animation.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+</body>
+</html>

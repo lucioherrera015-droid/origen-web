@@ -1,0 +1,22 @@
+# Video original — no subir al repo (ya están los frames extraídos)
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Logs
+*.log
+
+# Node (si se agrega en el futuro)
+node_modules/
