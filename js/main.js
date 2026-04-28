@@ -1,34 +1,24 @@
-﻿/**
- * main.js v2
- * Entry point: Lenis + nav progress + hamburger + anchor scroll.
+/**
+ * main.js v3
+ * Entry point: scroll nativo (sin Lenis) + nav progress + hamburger + anchor scroll.
+ * Lenis eliminado — causaba trabado del wheel event en desktop.
+ * GSAP/ScrollTrigger siguen funcionando normalmente con scroll nativo.
  */
 (function () {
   'use strict';
 
-  // â”€â”€ Lenis smooth scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function initLenis() {
-    if (typeof Lenis === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const lenis = new Lenis({
-      duration:      1.1,
-      easing:        t => 1 - Math.pow(1 - t, 3),
-      smoothWheel:   true,
-      wheelMultiplier: 1.0,
-    });
-
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add(time => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
-    }
-
-    window.__lenis = lenis;
+  // ── GSAP ScrollTrigger: usar scroll nativo ───
+  // Sin Lenis, ScrollTrigger escucha el scroll nativo directamente.
+  // No necesitamos configuración especial — GSAP maneja esto por defecto.
+  function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+    // lagSmoothing(0) evita que GSAP "suavice" el ticker internamente
+    // lo que podría causar desfase entre scroll nativo y animaciones
+    gsap.ticker.lagSmoothing(0);
   }
 
-  // â”€â”€ Nav: blur al scrollear â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Nav: blur al scrollear ───────────────────
   function initNav() {
     const nav = document.getElementById('nav');
     if (!nav) return;
@@ -42,7 +32,7 @@
     }, { threshold: 0 }).observe(sentinel);
   }
 
-  // â”€â”€ Nav progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Nav progress bar ────────────────────────
   function initNavProgress() {
     const bar = document.getElementById('nav-progress');
     if (!bar) return;
@@ -58,7 +48,7 @@
     update();
   }
 
-  // â”€â”€ Hamburger menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Hamburger menu ───────────────────────────
   function initHamburger() {
     const btn   = document.getElementById('nav-hamburger');
     const links = document.getElementById('nav-links');
@@ -87,25 +77,23 @@
     });
   }
 
-  // â”€â”€ Smooth scroll a anclas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Smooth scroll a anclas (scroll nativo) ───
   function initAnchorLinks() {
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
         if (!target) return;
         e.preventDefault();
-        if (window.__lenis) {
-          window.__lenis.scrollTo(target, { offset: -80, duration: 1.5 });
-        } else {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        // Scroll nativo con offset para el nav fijo
+        const top = target.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
       });
     });
   }
 
-  // â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Init ─────────────────────────────────────
   function init() {
-    initLenis();
+    initGSAP();
     initNav();
     initNavProgress();
     initHamburger();
