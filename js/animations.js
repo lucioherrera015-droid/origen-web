@@ -297,6 +297,7 @@
     const headlines = [
       { sel: '#origen-title',   stagger: 0.065 },
       { sel: '#blends-title',   stagger: 0.065 },
+      { sel: '#tienda-title',   stagger: 0.065 },
       { sel: '#proceso-title',  stagger: 0.065 },
       { sel: '.cta__title',     stagger: 0.08  },
     ];

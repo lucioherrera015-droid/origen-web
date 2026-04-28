@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/cursor.css" />
   <link rel="stylesheet" href="css/v2.css" />
   <link rel="stylesheet" href="css/v3.css" />
+  <link rel="stylesheet" href="css/store.css" />
 </head>
 <body>
 
@@ -39,16 +40,34 @@
   <!-- ═══ NAV ════════════════════════════════ -->
   <nav id="nav" aria-label="Navegación principal">
     <div class="nav__inner">
-      <a href="#" class="nav__logo" aria-label="ORIGEN — ir al inicio">ORIGEN</a>
-      <button class="nav__hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
-        <span></span><span></span>
-      </button>
+      <a href="#" class="nav__logo" aria-label="ORIGEN — ir al inicio">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 36" fill="none" width="140" height="24" aria-hidden="true">
+          <!-- Coffee bean replacing O -->
+          <ellipse cx="13" cy="18" rx="9.5" ry="12" stroke="#c8a45a" stroke-width="1.6"/>
+          <path d="M13 6.2 C10 9.8 10 14.5 13 18 C16 21.5 16 26.2 13 29.8" stroke="#c8a45a" stroke-width="1.1" opacity="0.65"/>
+          <!-- RIGEN -->
+          <text x="29" y="25" font-family="Cormorant Garamond, Georgia, serif" font-weight="500" font-size="23" letter-spacing="5" fill="#c8a45a">RIGEN</text>
+        </svg>
+      </a>
+      <div class="nav__actions">
+        <button class="nav__cart" id="nav-cart" aria-label="Carrito de compras">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="nav__cart-count" id="cart-count" aria-live="polite">0</span>
+        </button>
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+          <span></span><span></span>
+        </button>
+      </div>
       <ul class="nav__links" id="nav-links" role="list">
         <li><a href="#origen"   class="nav__link">Origen</a></li>
         <li><a href="#proceso"  class="nav__link">Proceso</a></li>
-        <li><a href="#blends"   class="nav__link">Blends</a></li>
+        <li><a href="#tienda"   class="nav__link">Tienda</a></li>
         <li><a href="#contacto" class="nav__link">Contacto</a></li>
-        <li><a href="#cta" class="nav__link nav__link--cta">Descubrí tu blend</a></li>
+        <li><a href="#tienda" class="nav__link nav__link--cta">Comprá ahora</a></li>
       </ul>
     </div>
     <div id="nav-progress" aria-hidden="true"></div>
@@ -229,78 +248,23 @@
   <!-- ═══ SEPARADOR ════════════════════════════ -->
   <div class="section-divider" aria-hidden="true"><div class="section-divider__line"></div></div>
 
-  <!-- ═══ SECCIÓN — BLENDS ═════════════════════ -->
-  <section id="blends" class="section section--blends" aria-labelledby="blends-title">
+  <!-- ═══ SECCIÓN — TIENDA ════════════════════ -->
+  <section id="tienda" class="section section--tienda" aria-labelledby="tienda-title">
     <div class="container">
-      <div class="blends__header">
-        <span class="section__eyebrow" data-reveal>Nuestra selección</span>
-        <h2 class="section__title" id="blends-title" data-reveal data-reveal-delay="1">
-          Encontrá<br><em>tu blend</em>
+      <div class="tienda__header">
+        <span class="section__eyebrow" data-reveal>Nuestra tienda</span>
+        <h2 class="section__title" id="tienda-title" data-reveal data-reveal-delay="1">
+          Encontrá<br><em>tu café</em>
         </h2>
+        <div class="tienda__filters" role="tablist" aria-label="Filtrar productos">
+          <button class="filter-btn active" data-filter="all"   role="tab" aria-selected="true">Todos</button>
+          <button class="filter-btn" data-filter="blend"        role="tab" aria-selected="false">Blends</button>
+          <button class="filter-btn" data-filter="single"       role="tab" aria-selected="false">Single Origin</button>
+          <button class="filter-btn" data-filter="accesorio"    role="tab" aria-selected="false">Accesorios</button>
+        </div>
       </div>
-
-      <div class="blends__grid" role="list">
-
-        <article class="blend-card" role="listitem" data-blend="volcanico" data-reveal data-reveal-delay="1">
-          <div class="blend-card__numeral" aria-hidden="true">I</div>
-          <div class="blend-card__inner">
-            <div class="blend-card__tag">Intenso</div>
-            <h3 class="blend-card__name">Volcánico</h3>
-            <p class="blend-card__notes">Cacao amargo · Tabaco · Cuerpo denso</p>
-            <p class="blend-card__desc">Notas de cacao amargo y tabaco. Cuerpo denso, final prolongado. Para los que toman el café en serio.</p>
-            <div class="blend-card__footer">
-              <div class="blend-card__intensity" aria-label="Intensidad: 5 de 5">
-                <span class="blend-card__intensity-label">Intensidad</span>
-                <div class="blend-card__dots" aria-hidden="true">
-                  <span class="dot dot--full"></span><span class="dot dot--full"></span>
-                  <span class="dot dot--full"></span><span class="dot dot--full"></span>
-                  <span class="dot dot--full"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="blend-card blend-card--featured" role="listitem" data-blend="serrania" data-reveal data-reveal-delay="2">
-          <div class="blend-card__numeral" aria-hidden="true">II</div>
-          <div class="blend-card__inner">
-            <div class="blend-card__tag">Destacado</div>
-            <h3 class="blend-card__name">Serranía</h3>
-            <p class="blend-card__notes">Floral · Cítrico · Acidez brillante</p>
-            <p class="blend-card__desc">Floral, cítrico, con acidez brillante. Un perfil limpio que se disfruta sin azúcar.</p>
-            <div class="blend-card__footer">
-              <div class="blend-card__intensity" aria-label="Intensidad: 3 de 5">
-                <span class="blend-card__intensity-label">Intensidad</span>
-                <div class="blend-card__dots" aria-hidden="true">
-                  <span class="dot dot--full"></span><span class="dot dot--full"></span>
-                  <span class="dot dot--full"></span><span class="dot dot--empty"></span>
-                  <span class="dot dot--empty"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="blend-card" role="listitem" data-blend="nocturno" data-reveal data-reveal-delay="3">
-          <div class="blend-card__numeral" aria-hidden="true">III</div>
-          <div class="blend-card__inner">
-            <div class="blend-card__tag">Suave</div>
-            <h3 class="blend-card__name">Nocturno</h3>
-            <p class="blend-card__notes">Caramelo · Nuez · Toque ahumado</p>
-            <p class="blend-card__desc">Caramelo, nuez y un toque ahumado. Suave pero con presencia. Ideal para cerrar el día.</p>
-            <div class="blend-card__footer">
-              <div class="blend-card__intensity" aria-label="Intensidad: 4 de 5">
-                <span class="blend-card__intensity-label">Intensidad</span>
-                <div class="blend-card__dots" aria-hidden="true">
-                  <span class="dot dot--full"></span><span class="dot dot--full"></span>
-                  <span class="dot dot--full"></span><span class="dot dot--full"></span>
-                  <span class="dot dot--empty"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
+      <div class="prod-grid" id="prod-grid" role="list" aria-label="Productos ORIGEN">
+        <!-- Renderizado por store.js -->
       </div>
     </div>
   </section>
@@ -329,7 +293,7 @@
         <h2 class="cta__title" id="cta-title" data-reveal data-reveal-delay="1">
           Tu próximo café<br><em>no debería ser</em><br>cualquiera.
         </h2>
-        <a href="#blends" class="btn btn--cta" id="cta-btn" data-reveal data-reveal-delay="2" aria-label="Descubrí tu blend de café ORIGEN">
+        <a href="#tienda" class="btn btn--cta" id="cta-btn" data-reveal data-reveal-delay="2" aria-label="Explorá la tienda ORIGEN">
           <span class="btn__text">Descubrí tu blend</span>
           <span class="btn__shimmer" aria-hidden="true"></span>
         </a>
@@ -363,58 +327,155 @@
     </div>
   </section>
 
-  <!-- ═══ FOOTER V3 ════════════════════════════ -->
+  <!-- ═══ FOOTER V4 ════════════════════════════ -->
   <footer class="footer" role="contentinfo">
-    <div class="footer__cta-band">
-      <p class="footer__cta-text">¿Listo para descubrir tu blend?</p>
-      <a href="#blends" class="btn btn--cta btn--sm" aria-label="Explorar blends de ORIGEN">
-        <span class="btn__text">Empezá acá</span>
-        <span class="btn__shimmer" aria-hidden="true"></span>
-      </a>
-    </div>
-    <div class="container">
-      <div class="footer__main">
+    <div class="container footer__top">
+      <div class="footer__grid">
+
+        <!-- Col 1: Brand -->
         <div class="footer__brand">
-          <span class="footer__logo">ORIGEN</span>
+          <a href="#" class="footer__logo" aria-label="ORIGEN inicio">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 36" fill="none" width="120" height="22" aria-hidden="true">
+              <ellipse cx="13" cy="18" rx="9.5" ry="12" stroke="#c8a45a" stroke-width="1.6"/>
+              <path d="M13 6.2 C10 9.8 10 14.5 13 18 C16 21.5 16 26.2 13 29.8" stroke="#c8a45a" stroke-width="1.1" opacity="0.65"/>
+              <text x="29" y="25" font-family="Cormorant Garamond, Georgia, serif" font-weight="500" font-size="23" letter-spacing="5" fill="#c8a45a">RIGEN</text>
+            </svg>
+          </a>
           <p class="footer__tagline">Café de Especialidad · Tostado Artesanal</p>
           <p class="footer__location">Buenos Aires, Argentina</p>
           <div class="footer__social" aria-label="Redes sociales">
-            <a href="#" class="footer__social-link" aria-label="ORIGEN en Instagram">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <circle cx="12" cy="12" r="4.5"/>
-                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-              </svg>
+            <a href="https://instagram.com" class="footer__social-link" target="_blank" rel="noopener" aria-label="ORIGEN en Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
             </a>
-            <a href="#" class="footer__social-link" aria-label="ORIGEN en X (Twitter)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4l16 16M4 20L20 4"/>
-              </svg>
+            <a href="https://wa.me/5491155551234" class="footer__social-link" target="_blank" rel="noopener" aria-label="ORIGEN en WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
             </a>
           </div>
         </div>
-        <nav class="footer__nav" aria-label="Navegación del footer">
-          <div class="footer__nav-col">
-            <span class="footer__nav-title">Explorar</span>
-            <a href="#origen">Nuestra historia</a>
-            <a href="#proceso">El proceso</a>
-            <a href="#blends">Los blends</a>
-            <a href="#contacto">Contacto</a>
-          </div>
-          <div class="footer__nav-col">
-            <span class="footer__nav-title">Contacto</span>
-            <a href="mailto:hola@origencafe.com.ar">hola@origencafe.com.ar</a>
-            <a href="#" aria-label="ORIGEN en Instagram">Instagram</a>
-            <a href="#" aria-label="ORIGEN en X (Twitter)">X (Twitter)</a>
-          </div>
-        </nav>
+
+        <!-- Col 2: Comprar -->
+        <div class="footer__col">
+          <span class="footer__col-title">Comprar</span>
+          <a href="#tienda">Todos los productos</a>
+          <a href="#tienda" data-filter-link="blend">Blends de especialidad</a>
+          <a href="#tienda" data-filter-link="single">Single Origin</a>
+          <a href="#tienda" data-filter-link="accesorio">Accesorios</a>
+        </div>
+
+        <!-- Col 3: ORIGEN -->
+        <div class="footer__col">
+          <span class="footer__col-title">ORIGEN</span>
+          <a href="#origen">Nuestra historia</a>
+          <a href="#proceso">El proceso</a>
+          <a href="#contacto">Contacto</a>
+          <a href="mailto:hola@origencafe.com.ar">hola@origencafe.com.ar</a>
+        </div>
+
+        <!-- Col 4: Newsletter -->
+        <div class="footer__newsletter">
+          <span class="footer__col-title">Newsletter</span>
+          <p class="footer__newsletter-desc">Enterate primero de los nuevos lanzamientos y lotes limitados.</p>
+          <form class="footer__newsletter-form" id="newsletter-form" novalidate>
+            <input type="email" id="newsletter-input" class="footer__newsletter-input"
+                   placeholder="tu@email.com" autocomplete="email" required />
+            <button type="submit" class="footer__newsletter-btn">Suscribirme</button>
+          </form>
+          <p class="footer__newsletter-confirm" id="newsletter-confirm">
+            ¡Gracias! Te avisaremos de los nuevos lanzamientos.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Payment methods -->
+    <div class="container">
+      <div class="footer__payment">
+        <span class="footer__payment-label">Pagos</span>
+        <!-- Visa -->
+        <svg class="payment-icon" viewBox="0 0 48 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Visa">
+          <text x="0" y="13" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#e8dcc8" letter-spacing="-0.5">VISA</text>
+        </svg>
+        <!-- Mastercard -->
+        <svg class="payment-icon" viewBox="0 0 38 24" aria-label="Mastercard">
+          <circle cx="14" cy="12" r="10" fill="#eb001b" opacity="0.85"/>
+          <circle cx="24" cy="12" r="10" fill="#f79e1b" opacity="0.85"/>
+          <path d="M19 5.8a10 10 0 010 12.4A10 10 0 0119 5.8z" fill="#ff5f00" opacity="0.9"/>
+        </svg>
+        <!-- Amex -->
+        <svg class="payment-icon" viewBox="0 0 60 16" aria-label="American Express">
+          <text x="0" y="13" font-family="Arial,sans-serif" font-weight="700" font-size="10" fill="#e8dcc8" letter-spacing="0.5">AMEX</text>
+        </svg>
+        <!-- MercadoPago -->
+        <svg class="payment-icon" viewBox="0 0 80 20" aria-label="MercadoPago">
+          <text x="0" y="14" font-family="Arial,sans-serif" font-weight="600" font-size="9" fill="#e8dcc8" letter-spacing="0.2">MercadoPago</text>
+        </svg>
+        <!-- Transferencia -->
+        <svg class="payment-icon" viewBox="0 0 80 20" aria-label="Transferencia bancaria">
+          <text x="0" y="14" font-family="Arial,sans-serif" font-weight="400" font-size="9" fill="#e8dcc8" letter-spacing="0.2">Transferencia</text>
+        </svg>
       </div>
       <div class="footer__bottom">
-        <span>ORIGEN © <time datetime="2025">2025</time> · Buenos Aires, Argentina</span>
+        <span>ORIGEN © <time datetime="2026">2026</time> · Buenos Aires, Argentina</span>
         <span>Café de Especialidad · Tostado Artesanal</span>
       </div>
     </div>
   </footer>
+
+  <!-- ═══ PRODUCT MODAL ═══════════════════════ -->
+  <div id="prod-modal" class="prod-modal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+    <div class="prod-modal__backdrop" id="modal-backdrop"></div>
+    <div class="prod-modal__panel">
+      <button class="prod-modal__close" id="modal-close" aria-label="Cerrar">×</button>
+      <div class="prod-modal__layout">
+        <div class="prod-modal__img-col">
+          <img class="prod-modal__img" id="modal-img" src="" alt="" />
+        </div>
+        <div class="prod-modal__info-col">
+          <span class="prod-modal__category" id="modal-category"></span>
+          <h2 class="prod-modal__name" id="modal-name"></h2>
+          <p class="prod-modal__notes" id="modal-notes"></p>
+          <p class="prod-modal__desc" id="modal-desc"></p>
+          <div id="modal-intensity"></div>
+          <div class="prod-modal__variants" id="modal-variants"></div>
+          <div class="prod-modal__price-row">
+            <span class="prod-modal__price" id="modal-price"></span>
+            <button class="btn btn--cta prod-modal__add-btn" id="modal-add-btn" aria-label="Agregar al carrito">
+              <span class="btn__text">Agregar al carrito</span>
+              <span class="btn__shimmer" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CART DRAWER ══════════════════════════ -->
+  <div id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Carrito de compras">
+    <div class="cart-drawer__backdrop"></div>
+    <div class="cart-drawer__panel">
+      <div class="cart-drawer__header">
+        <h2 class="cart-drawer__title">Tu carrito</h2>
+        <button class="cart-drawer__close" id="cart-close" aria-label="Cerrar carrito">×</button>
+      </div>
+      <div class="cart-drawer__empty" id="cart-empty" style="display:none">
+        <p>Tu carrito está vacío.</p>
+        <a href="#tienda">Explorá la tienda →</a>
+      </div>
+      <div class="cart-drawer__body" id="cart-body"></div>
+      <div class="cart-drawer__footer" id="cart-footer" style="display:none;flex-direction:column;gap:1rem">
+        <div class="cart-drawer__total">
+          <span class="cart-drawer__total-label">Total</span>
+          <span class="cart-drawer__total-amount" id="cart-total-amount">$0</span>
+        </div>
+        <button class="btn btn--cta cart-drawer__checkout" id="cart-checkout">
+          <span class="btn__text">Finalizar por WhatsApp</span>
+          <span class="btn__shimmer" aria-hidden="true"></span>
+        </button>
+        <p class="cart-drawer__note">Coordinamos entrega o envío por mensaje</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="js/scroll-animation.js" defer></script>
@@ -423,6 +484,7 @@
   <script src="js/tilt.js" defer></script>
   <script src="js/mouse-hero.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/store.js" defer></script>
 
 </body>
 </html>
