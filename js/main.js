@@ -1,20 +1,20 @@
-/**
+﻿/**
  * main.js v2
  * Entry point: Lenis + nav progress + hamburger + anchor scroll.
  */
 (function () {
   'use strict';
 
-  // ── Lenis smooth scroll ──────────────────────
+  // â”€â”€ Lenis smooth scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function initLenis() {
     if (typeof Lenis === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const lenis = new Lenis({
-      duration:      1.35,
-      easing:        t => 1 - Math.pow(1 - t, 4),
+      duration:      1.1,
+      easing:        t => 1 - Math.pow(1 - t, 3),
       smoothWheel:   true,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 1.0,
     });
 
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -28,7 +28,7 @@
     window.__lenis = lenis;
   }
 
-  // ── Nav: blur al scrollear ───────────────────
+  // â”€â”€ Nav: blur al scrollear â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function initNav() {
     const nav = document.getElementById('nav');
     if (!nav) return;
@@ -42,7 +42,7 @@
     }, { threshold: 0 }).observe(sentinel);
   }
 
-  // ── Nav progress bar ────────────────────────
+  // â”€â”€ Nav progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function initNavProgress() {
     const bar = document.getElementById('nav-progress');
     if (!bar) return;
@@ -58,7 +58,7 @@
     update();
   }
 
-  // ── Hamburger menu ───────────────────────────
+  // â”€â”€ Hamburger menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function initHamburger() {
     const btn   = document.getElementById('nav-hamburger');
     const links = document.getElementById('nav-links');
@@ -87,7 +87,7 @@
     });
   }
 
-  // ── Smooth scroll a anclas ───────────────────
+  // â”€â”€ Smooth scroll a anclas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function initAnchorLinks() {
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
@@ -103,7 +103,7 @@
     });
   }
 
-  // ── Init ─────────────────────────────────────
+  // â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function init() {
     initLenis();
     initNav();

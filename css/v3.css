@@ -370,3 +370,57 @@
   height: 14px;
   stroke-width: 1.5;
 }
+
+/* ── Performance: GPU hints para elementos animados ── */
+
+/* Canvas hero: compositor-only layer */
+#hero-canvas {
+  will-change: opacity;
+}
+
+/* Cursor: siempre en compositor (ya tiene translate3d) */
+#cursor-dot,
+#cursor-ring {
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Mouse light del hero: sólo en viewport del hero */
+#hero-mouse-light {
+  will-change: opacity;
+}
+
+/* Timeline images: will-change sólo en hover (evita capas innecesarias en reposo) */
+@media (hover: hover) and (pointer: fine) {
+  .timeline__img-wrap:hover img {
+    will-change: transform;
+  }
+}
+
+/* Blend cards: will-change sólo cuando se está haciendo tilt */
+/* (GSAP/tilt.js lo maneja via JS — no lo ponemos aquí para evitar capas permanentes) */
+
+/* Clip-path reveals: compositar durante la animación */
+[data-reveal="clip-h"],
+[data-reveal="clip-hr"] {
+  will-change: clip-path;
+}
+[data-reveal="clip-h"].is-visible,
+[data-reveal="clip-hr"].is-visible {
+  will-change: auto; /* liberar capa una vez terminada la animación */
+}
+
+/* Marquee: capa permanente justificada (animación continua) */
+.marquee__track {
+  will-change: transform;
+}
+
+/* Separar blends section del flujo principal para aislar repaints */
+.section--blends {
+  contain: layout style;
+}
+
+/* Evitar que el timeline cause repaints en secciones adyacentes */
+.section--proceso {
+  contain: layout;
+}

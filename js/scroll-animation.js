@@ -1,14 +1,15 @@
 /**
- * scroll-animation.js
- * Canvas hero con frames del video sincronizados al scroll.
- * Dependencias: GSAP + ScrollTrigger (cargados antes via CDN)
+ * scroll-animation.js v3
+ * — Canvas hero con frames del video sincronizados al scroll.
+ * — RAF pausable: canvas deja de dibujar cuando está off-screen o con opacity 0
+ * — Sin forced reflows en el loop de render
+ * — Dependencias: GSAP + ScrollTrigger (cargados antes via CDN)
  */
 
 (function () {
   'use strict';
 
   // En mobile cargamos 60 frames (cada ~2.5 del set original de 150)
-  // para reducir memoria y tiempo de carga a la mitad
   const IS_MOBILE    = window.innerWidth < 768;
   const TOTAL_FRAMES = IS_MOBILE ? 60 : 150;
   const PRELOAD_MIN  = IS_MOBILE ? 15 : 30;
@@ -33,6 +34,10 @@
   let scrollTriggerInstance = null;
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Control de pausa — canvas solo dibuja cuando es visible
+  let heroVisible  = true;   // controlado por IntersectionObserver
+  let pendingFrame = -1;     // frame que espera ser dibujado
+
   // ── Resize del canvas ────────────────────────
   function resizeCanvas() {
     canvasW = canvas.width  = window.innerWidth;
@@ -56,6 +61,20 @@
     const offsetY = (canvasH - drawH) / 2;
 
     ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+  }
+
+  // ── Solicitar frame via RAF (pausable) ────────
+  function requestDraw(index) {
+    if (!heroVisible) {
+      // Guardar el frame pendiente — se dibujará cuando sea visible de nuevo
+      pendingFrame = index;
+      return;
+    }
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      drawFrame(index);
+    });
   }
 
   // ── Actualizar barra de carga ────────────────
@@ -109,8 +128,7 @@
         );
         if (idx !== currentFrame) {
           currentFrame = idx;
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(() => drawFrame(currentFrame));
+          requestDraw(currentFrame);
         }
       },
     });
@@ -129,6 +147,7 @@
     });
 
     // Fade out del canvas overlay al terminar
+    // onUpdate de opacidad para pausar el canvas cuando ya no se ve
     gsap.to(['#hero-canvas', '.hero__gradient-overlay'], {
       opacity: 0,
       ease: 'none',
@@ -137,6 +156,23 @@
         start: '80% top',
         end: 'bottom top',
         scrub: true,
+        onUpdate: function (self) {
+          // Cuando el canvas está casi invisible, pausar el RAF
+          heroVisible = self.progress < 0.95;
+          // Si se hace visible de nuevo y hay un frame pendiente, dibujarlo
+          if (heroVisible && pendingFrame >= 0) {
+            requestDraw(pendingFrame);
+            pendingFrame = -1;
+          }
+        },
+        onLeave:     () => { heroVisible = false; },
+        onEnterBack: () => {
+          heroVisible = true;
+          if (pendingFrame >= 0) {
+            requestDraw(pendingFrame);
+            pendingFrame = -1;
+          }
+        },
       },
     });
   }
@@ -162,6 +198,29 @@
         },
       });
     }
+  }
+
+  // ── IntersectionObserver — pausa canvas cuando sale del viewport ──
+  function initCanvasVisibility() {
+    const heroSection = document.getElementById('hero');
+    if (!heroSection || typeof IntersectionObserver === 'undefined') return;
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        heroVisible = entry.isIntersecting;
+        if (heroVisible && pendingFrame >= 0) {
+          requestDraw(pendingFrame);
+          pendingFrame = -1;
+        }
+        // Si sale del viewport, cancelar RAF pendiente
+        if (!heroVisible && rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      });
+    }, { threshold: 0 });
+
+    obs.observe(heroSection);
   }
 
   // ── Precargar frames ─────────────────────────
@@ -240,7 +299,6 @@
   }
 
   // Mapea un índice 1-TOTAL_FRAMES al frame real 1-150
-  // En mobile: distribuye 60 frames uniformemente sobre los 150 disponibles
   function getFrameSrc(i) {
     const realIdx = IS_MOBILE
       ? Math.round(1 + (i - 1) * (149 / 59)) // 1-60 → 1-150 uniforme
@@ -251,6 +309,7 @@
   // ── Init ─────────────────────────────────────
   function init() {
     resizeCanvas();
+    initCanvasVisibility(); // Pausar canvas cuando sale del viewport
 
     let resizeTimeout;
     window.addEventListener('resize', () => {

@@ -198,11 +198,11 @@
     if (!isDesktop || reducedMotion || typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
 
+    // Reducido a elementos que realmente existen y tienen impacto visual
+    // scrub:2 = más suave, menos frecuencia de cálculo que scrub:true
     const parallaxItems = [
-      { selector: '.origen__deco',   yPercent: -18 },
-      { selector: '.cta__bg-glow',   yPercent:  25 },
-      { selector: '.process__item:nth-child(odd)',  yPercent: -10 },
-      { selector: '.process__item:nth-child(even)', yPercent:  10 },
+      { selector: '.origen__deco',   yPercent: -15 },
+      { selector: '.cta__bg-glow',   yPercent:  20 },
     ];
 
     parallaxItems.forEach(({ selector, yPercent }) => {
@@ -217,7 +217,11 @@
             trigger: section,
             start:   'top bottom',
             end:     'bottom top',
-            scrub:   true,
+            scrub:   2, // más suave = menos updates por frame
+            onEnter:     () => { el.style.willChange = 'transform'; },
+            onLeave:     () => { el.style.willChange = 'auto'; },
+            onEnterBack: () => { el.style.willChange = 'transform'; },
+            onLeaveBack: () => { el.style.willChange = 'auto'; },
           },
         });
       });
