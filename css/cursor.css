@@ -1,0 +1,89 @@
+/* ═══════════════════════════════════════════
+   ORIGEN — Custom Cursor
+   Only active on devices with fine pointer (mouse)
+   ═══════════════════════════════════════════ */
+
+@media (hover: hover) and (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* Dot: pequeño, sigue el mouse exacto */
+#cursor-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--c-accent);
+  transition: opacity 0.3s, transform 0.15s ease, background 0.3s;
+  mix-blend-mode: normal;
+}
+
+/* Ring: grande, con lag suave (movido por JS con lerp) */
+#cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(200, 164, 90, 0.45);
+  background: transparent;
+  transition:
+    width   0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    height  0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    background   0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* ── Estados ── */
+
+/* Hover sobre elementos interactivos */
+#cursor-ring.is-hovering {
+  width: 64px;
+  height: 64px;
+  border-color: var(--c-accent);
+  background: rgba(200, 164, 90, 0.06);
+}
+
+/* Click */
+#cursor-dot.is-clicking {
+  transform: translate(-50%, -50%) scale(0.6);
+  background: #fff;
+}
+#cursor-ring.is-clicking {
+  width: 28px;
+  height: 28px;
+}
+
+/* Hover sobre texto / links de nav */
+#cursor-ring.is-link {
+  width: 52px;
+  height: 52px;
+  border-color: rgba(232, 220, 200, 0.6);
+  background: rgba(232, 220, 200, 0.04);
+}
+
+/* Ocultar cuando el mouse está fuera de la ventana */
+#cursor-dot.hidden,
+#cursor-ring.hidden {
+  opacity: 0;
+}
+
+/* No mostrar en mobile/touch */
+@media (hover: none), (pointer: coarse) {
+  #cursor-dot,
+  #cursor-ring {
+    display: none;
+  }
+}

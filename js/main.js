@@ -1,9 +1,7 @@
 /**
- * main.js
- * Entry point: Lenis smooth scroll + nav behavior + hamburger menu.
- * Se ejecuta después de scroll-animation.js y animations.js.
+ * main.js v2
+ * Entry point: Lenis + nav progress + hamburger + anchor scroll.
  */
-
 (function () {
   'use strict';
 
@@ -13,31 +11,24 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const lenis = new Lenis({
-      duration: 1.35,
-      easing: t => 1 - Math.pow(1 - t, 4),
-      smoothWheel: true,
+      duration:      1.35,
+      easing:        t => 1 - Math.pow(1 - t, 4),
+      smoothWheel:   true,
       wheelMultiplier: 0.9,
     });
 
-    // Conectar Lenis con ScrollTrigger de GSAP
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add(time => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
     } else {
-      // RAF standalone si GSAP no está disponible
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
+      (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
     }
 
-    // Exponer para que otros scripts puedan pausarlo
     window.__lenis = lenis;
   }
 
-  // ── Nav: cambio de fondo al scrollear ────────
+  // ── Nav: blur al scrollear ───────────────────
   function initNav() {
     const nav = document.getElementById('nav');
     if (!nav) return;
@@ -46,13 +37,25 @@
     sentinel.style.cssText = 'position:absolute;top:10px;left:0;width:1px;height:1px;pointer-events:none;';
     document.body.prepend(sentinel);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        nav.classList.toggle('scrolled', !entry.isIntersecting);
-      },
-      { threshold: 0 }
-    );
-    observer.observe(sentinel);
+    new IntersectionObserver(([entry]) => {
+      nav.classList.toggle('scrolled', !entry.isIntersecting);
+    }, { threshold: 0 }).observe(sentinel);
+  }
+
+  // ── Nav progress bar ────────────────────────
+  function initNavProgress() {
+    const bar = document.getElementById('nav-progress');
+    if (!bar) return;
+
+    function update() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+      bar.style.width = pct.toFixed(2) + '%';
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   }
 
   // ── Hamburger menu ───────────────────────────
@@ -67,7 +70,6 @@
       btn.setAttribute('aria-expanded', isOpen);
     });
 
-    // Cerrar al hacer click en un link
     links.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         links.classList.remove('open');
@@ -76,7 +78,6 @@
       });
     });
 
-    // Cerrar al hacer click fuera
     document.addEventListener('click', e => {
       if (!btn.contains(e.target) && !links.contains(e.target)) {
         links.classList.remove('open');
@@ -106,6 +107,7 @@
   function init() {
     initLenis();
     initNav();
+    initNavProgress();
     initHamburger();
     initAnchorLinks();
   }
