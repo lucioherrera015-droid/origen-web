@@ -7,10 +7,13 @@
 (function () {
   'use strict';
 
-  const TOTAL_FRAMES = 150;
+  // En mobile cargamos 60 frames (cada ~2.5 del set original de 150)
+  // para reducir memoria y tiempo de carga a la mitad
+  const IS_MOBILE    = window.innerWidth < 768;
+  const TOTAL_FRAMES = IS_MOBILE ? 60 : 150;
+  const PRELOAD_MIN  = IS_MOBILE ? 15 : 30;
   const FRAME_PATH   = 'frames/frame_';
   const FRAME_EXT    = '.webp';
-  const PRELOAD_MIN  = 30; // frames mínimos antes de habilitar scroll
 
   const canvas  = document.getElementById('hero-canvas');
   const ctx     = canvas ? canvas.getContext('2d') : null;
@@ -178,7 +181,7 @@
     const firstImg = new Image();
     firstImg.onload  = () => onFirstFrame(firstImg);
     firstImg.onerror = () => { /* continuar */ };
-    firstImg.src = FRAME_PATH + pad(1) + FRAME_EXT;
+    firstImg.src = getFrameSrc(1);
 
     // Cargar todos en paralelo
     let errCount = 0;
@@ -214,7 +217,7 @@
             }
           }
         };
-        img.src = FRAME_PATH + pad(idx) + FRAME_EXT;
+        img.src = getFrameSrc(idx);
         frames[idx - 1] = img; // reservar slot
       })(i);
     }
@@ -234,6 +237,15 @@
 
   function pad(n) {
     return String(n).padStart(3, '0');
+  }
+
+  // Mapea un índice 1-TOTAL_FRAMES al frame real 1-150
+  // En mobile: distribuye 60 frames uniformemente sobre los 150 disponibles
+  function getFrameSrc(i) {
+    const realIdx = IS_MOBILE
+      ? Math.round(1 + (i - 1) * (149 / 59)) // 1-60 → 1-150 uniforme
+      : i;
+    return FRAME_PATH + pad(realIdx) + FRAME_EXT;
   }
 
   // ── Init ─────────────────────────────────────

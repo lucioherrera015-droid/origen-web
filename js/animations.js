@@ -105,6 +105,28 @@
     document.querySelectorAll('[data-reveal="clip"]').forEach(el => observer.observe(el));
   }
 
+  // ── 2b. CLIP-PATH HORIZONTAL REVEALS ──────────
+  function initClipHReveals() {
+    const els = document.querySelectorAll('[data-reveal="clip-h"], [data-reveal="clip-hr"]');
+    if (!els.length) return;
+
+    if (reducedMotion) {
+      els.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    els.forEach(el => obs.observe(el));
+  }
+
   // ── 3. FADE REVEALS (no-hero) ─────────────────
   function initFadeReveals() {
     const selector = '[data-reveal]:not([data-reveal="clip"]):not(#hero-content [data-reveal])';
@@ -202,6 +224,23 @@
     });
   }
 
+  // ── 5b. TIMELINE FILL ────────────────────────
+  function initTimelineFill() {
+    const fill = document.getElementById('timeline-fill');
+    if (!fill || reducedMotion || typeof gsap === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(fill, {
+      height: '100%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.timeline',
+        start: 'top 75%',
+        end: 'bottom 55%',
+        scrub: 1,
+      },
+    });
+  }
+
   // ── 6. SEPARADORES ANIMADOS ───────────────────
   function initDividers() {
     const dividers = document.querySelectorAll('.section-divider__line');
@@ -263,9 +302,11 @@
     });
 
     initClipReveals();
+    initClipHReveals();
     initFadeReveals();
     initCounters();
     initParallax();
+    initTimelineFill();
     initDividers();
     initItalicSkew();
   }

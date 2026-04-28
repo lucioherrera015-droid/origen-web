@@ -21,10 +21,11 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/cursor.css" />
   <link rel="stylesheet" href="css/v2.css" />
+  <link rel="stylesheet" href="css/v3.css" />
 </head>
 <body>
 
-  <!-- LOADER -->
+  <!-- ═══ LOADER ══════════════════════════════ -->
   <div id="loader" aria-hidden="true" role="progressbar" aria-label="Cargando">
     <div class="loader__inner">
       <span class="loader__logo">ORIGEN</span>
@@ -35,7 +36,7 @@
     </div>
   </div>
 
-  <!-- NAV -->
+  <!-- ═══ NAV ════════════════════════════════ -->
   <nav id="nav" aria-label="Navegación principal">
     <div class="nav__inner">
       <a href="#" class="nav__logo" aria-label="ORIGEN — ir al inicio">ORIGEN</a>
@@ -43,16 +44,17 @@
         <span></span><span></span>
       </button>
       <ul class="nav__links" id="nav-links" role="list">
-        <li><a href="#origen"  class="nav__link">Origen</a></li>
-        <li><a href="#proceso" class="nav__link">Proceso</a></li>
-        <li><a href="#blends"  class="nav__link">Blends</a></li>
+        <li><a href="#origen"   class="nav__link">Origen</a></li>
+        <li><a href="#proceso"  class="nav__link">Proceso</a></li>
+        <li><a href="#blends"   class="nav__link">Blends</a></li>
+        <li><a href="#contacto" class="nav__link">Contacto</a></li>
         <li><a href="#cta" class="nav__link nav__link--cta">Descubrí tu blend</a></li>
       </ul>
     </div>
     <div id="nav-progress" aria-hidden="true"></div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ═══ HERO ════════════════════════════════ -->
   <section id="hero" aria-label="Hero — Del grano a tu taza">
     <canvas id="hero-canvas" aria-hidden="true"></canvas>
     <div id="hero-mouse-light" aria-hidden="true"></div>
@@ -82,7 +84,33 @@
     <div id="scroll-driver" aria-hidden="true"></div>
   </section>
 
-  <!-- SECCIÓN 2 — CADA TAZA TIENE HISTORIA -->
+  <!-- ═══ MARQUEE ══════════════════════════════ -->
+  <div class="marquee" aria-hidden="true" role="presentation">
+    <div class="marquee__track">
+      <span class="marquee__content">
+        Tostado artesanal <span class="marquee__sep">·</span>
+        Buenos Aires <span class="marquee__sep">·</span>
+        Granos de altura <span class="marquee__sep">·</span>
+        Lotes pequeños <span class="marquee__sep">·</span>
+        Sin atajos <span class="marquee__sep">·</span>
+        Desde la finca a tu taza <span class="marquee__sep">·</span>
+        Origen, proceso, ritual <span class="marquee__sep">·</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+      <span class="marquee__content" aria-hidden="true">
+        Tostado artesanal <span class="marquee__sep">·</span>
+        Buenos Aires <span class="marquee__sep">·</span>
+        Granos de altura <span class="marquee__sep">·</span>
+        Lotes pequeños <span class="marquee__sep">·</span>
+        Sin atajos <span class="marquee__sep">·</span>
+        Desde la finca a tu taza <span class="marquee__sep">·</span>
+        Origen, proceso, ritual <span class="marquee__sep">·</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+    </div>
+  </div>
+
+  <!-- ═══ SECCIÓN — HISTORIA ═══════════════════ -->
   <section id="origen" class="section section--origen" aria-labelledby="origen-title">
     <div class="container">
       <div class="origen__layout">
@@ -119,66 +147,89 @@
     </div>
   </section>
 
-  <!-- SEPARADOR -->
+  <!-- ═══ SEPARADOR ════════════════════════════ -->
   <div class="section-divider" aria-hidden="true"><div class="section-divider__line"></div></div>
 
-  <!-- SECCIÓN 3 — PROCESO -->
+  <!-- ═══ SECCIÓN — PROCESO (TIMELINE) ══════════ -->
   <section id="proceso" class="section section--proceso" aria-labelledby="proceso-title">
-    <div class="container proceso__header">
-      <span class="section__eyebrow" data-reveal>El proceso</span>
-      <h2 class="section__title" id="proceso-title" data-reveal data-reveal-delay="1">
-        Del grano<br><em>a la taza.</em>
-      </h2>
-    </div>
-    <div class="process__grid">
-
-      <div class="process__item" data-reveal="clip">
-        <div class="process__image-wrap">
-          <img src="img/proceso-1.webp" alt="Selección de granos en finca de altura" loading="lazy" width="1280" height="480" />
-        </div>
-        <div class="process__overlay" aria-hidden="true">
-          <span class="process__step">01</span>
-          <p class="process__caption">Selección en origen</p>
-        </div>
+    <div class="container">
+      <div class="proceso__header">
+        <span class="section__eyebrow" data-reveal>El proceso</span>
+        <h2 class="section__title" id="proceso-title" data-reveal data-reveal-delay="1">
+          Del grano<br><em>a la taza.</em>
+        </h2>
       </div>
 
-      <div class="process__item" data-reveal="clip" data-reveal-delay="1">
-        <div class="process__image-wrap">
-          <img src="img/proceso-2.webp" alt="Tostado artesanal en tambor" loading="lazy" width="640" height="360" />
+      <div class="timeline">
+        <!-- Línea vertical animada -->
+        <div class="timeline__rail" aria-hidden="true">
+          <div class="timeline__rail-fill" id="timeline-fill"></div>
         </div>
-        <div class="process__overlay" aria-hidden="true">
-          <span class="process__step">02</span>
-          <p class="process__caption">Tostado artesanal</p>
-        </div>
-      </div>
 
-      <div class="process__item" data-reveal="clip" data-reveal-delay="2">
-        <div class="process__image-wrap">
-          <img src="img/proceso-3.webp" alt="Reposo del café en bolsas premium" loading="lazy" width="640" height="360" />
+        <!-- Paso 01 — impar: texto izq, imagen der -->
+        <div class="timeline__step" data-reveal>
+          <div class="timeline__left">
+            <span class="timeline__num">01</span>
+            <h3 class="timeline__title">Selección</h3>
+            <p class="timeline__desc">Elegimos granos en fincas de altura de tres continentes</p>
+          </div>
+          <div class="timeline__right">
+            <div class="timeline__img-wrap" data-reveal="clip-h">
+              <img src="img/proceso-1.webp" alt="Selección de granos de café en finca" loading="lazy" width="800" height="600" />
+            </div>
+          </div>
         </div>
-        <div class="process__overlay" aria-hidden="true">
-          <span class="process__step">03</span>
-          <p class="process__caption">Reposo y envasado</p>
-        </div>
-      </div>
 
-      <div class="process__item" data-reveal="clip" data-reveal-delay="3">
-        <div class="process__image-wrap">
-          <img src="img/proceso-4.webp" alt="Preparación de café en pour-over" loading="lazy" width="640" height="360" />
+        <!-- Paso 02 — par: imagen izq (zigzag), texto der -->
+        <div class="timeline__step" data-reveal>
+          <div class="timeline__left">
+            <span class="timeline__num">02</span>
+            <h3 class="timeline__title">Tostado</h3>
+            <p class="timeline__desc">Lotes pequeños, temperatura controlada, sin automatizar</p>
+          </div>
+          <div class="timeline__right">
+            <div class="timeline__img-wrap" data-reveal="clip-hr">
+              <img src="img/proceso-2.webp" alt="Tostado artesanal de café en tambor" loading="lazy" width="800" height="600" />
+            </div>
+          </div>
         </div>
-        <div class="process__overlay" aria-hidden="true">
-          <span class="process__step">04</span>
-          <p class="process__caption">Tu taza</p>
-        </div>
-      </div>
 
+        <!-- Paso 03 — impar: texto izq, imagen der -->
+        <div class="timeline__step" data-reveal>
+          <div class="timeline__left">
+            <span class="timeline__num">03</span>
+            <h3 class="timeline__title">Reposo</h3>
+            <p class="timeline__desc">48 horas de degasificación para encontrar el punto justo</p>
+          </div>
+          <div class="timeline__right">
+            <div class="timeline__img-wrap" data-reveal="clip-h">
+              <img src="img/proceso-3.webp" alt="Reposo del café en bolsas de alta calidad" loading="lazy" width="800" height="600" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Paso 04 — par: imagen izq (zigzag), texto der -->
+        <div class="timeline__step" data-reveal>
+          <div class="timeline__left">
+            <span class="timeline__num">04</span>
+            <h3 class="timeline__title">Preparación</h3>
+            <p class="timeline__desc">Cada método de extracción revela un perfil distinto</p>
+          </div>
+          <div class="timeline__right">
+            <div class="timeline__img-wrap" data-reveal="clip-hr">
+              <img src="img/proceso-4.webp" alt="Preparación de café en pour-over" loading="lazy" width="800" height="600" />
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- SEPARADOR -->
+  <!-- ═══ SEPARADOR ════════════════════════════ -->
   <div class="section-divider" aria-hidden="true"><div class="section-divider__line"></div></div>
 
-  <!-- SECCIÓN 4 — ENCONTRÁ TU BLEND -->
+  <!-- ═══ SECCIÓN — BLENDS ═════════════════════ -->
   <section id="blends" class="section section--blends" aria-labelledby="blends-title">
     <div class="container">
       <div class="blends__header">
@@ -254,10 +305,22 @@
     </div>
   </section>
 
-  <!-- SEPARADOR -->
+  <!-- ═══ CITA DE MARCA ════════════════════════ -->
+  <section class="section section--quote" aria-label="Filosofía de marca ORIGEN">
+    <div class="quote__glow" aria-hidden="true"></div>
+    <div class="container">
+      <blockquote class="brand-quote">
+        <p class="brand-quote__text" data-reveal="clip">
+          "El café es el único ritual que une la paciencia con el placer."
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ SEPARADOR ════════════════════════════ -->
   <div class="section-divider" aria-hidden="true"><div class="section-divider__line"></div></div>
 
-  <!-- SECCIÓN 5 — CTA FINAL -->
+  <!-- ═══ SECCIÓN — CTA FINAL ══════════════════ -->
   <section id="cta" class="section section--cta" aria-labelledby="cta-title">
     <div class="cta__bg-glow" aria-hidden="true"></div>
     <div class="container">
@@ -274,11 +337,37 @@
     </div>
   </section>
 
-  <!-- FOOTER V2 -->
+  <!-- ═══ SECCIÓN — CONTACTO ═══════════════════ -->
+  <section id="contacto" class="section section--contact" aria-labelledby="contact-title">
+    <div class="container">
+      <span class="section__eyebrow" data-reveal>Mantenete en contacto</span>
+      <h2 class="section__title" id="contact-title" data-reveal data-reveal-delay="1">
+        ¿Querés saber<br><em>más?</em>
+      </h2>
+      <form class="contact-form" novalidate data-reveal data-reveal-delay="2" aria-label="Formulario de contacto ORIGEN">
+        <div class="contact-form__row">
+          <div class="contact-form__field">
+            <label for="contact-name" class="contact-form__label">Nombre</label>
+            <input type="text" id="contact-name" name="name" class="contact-form__input" placeholder="Tu nombre" autocomplete="name" />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-email" class="contact-form__label">Email</label>
+            <input type="email" id="contact-email" name="email" class="contact-form__input" placeholder="tu@email.com" autocomplete="email" />
+          </div>
+        </div>
+        <button type="submit" class="btn btn--cta contact-form__submit" aria-label="Enviar consulta a ORIGEN">
+          <span class="btn__text">Quiero saber más</span>
+          <span class="btn__shimmer" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER V3 ════════════════════════════ -->
   <footer class="footer" role="contentinfo">
     <div class="footer__cta-band">
       <p class="footer__cta-text">¿Listo para descubrir tu blend?</p>
-      <a href="#blends" class="btn btn--cta btn--sm" aria-label="Empezá a explorar los blends">
+      <a href="#blends" class="btn btn--cta btn--sm" aria-label="Explorar blends de ORIGEN">
         <span class="btn__text">Empezá acá</span>
         <span class="btn__shimmer" aria-hidden="true"></span>
       </a>
@@ -289,24 +378,40 @@
           <span class="footer__logo">ORIGEN</span>
           <p class="footer__tagline">Café de Especialidad · Tostado Artesanal</p>
           <p class="footer__location">Buenos Aires, Argentina</p>
+          <div class="footer__social" aria-label="Redes sociales">
+            <a href="#" class="footer__social-link" aria-label="ORIGEN en Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4.5"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="ORIGEN en X (Twitter)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4l16 16M4 20L20 4"/>
+              </svg>
+            </a>
+          </div>
         </div>
-        <nav class="footer__nav" aria-label="Links del footer">
+        <nav class="footer__nav" aria-label="Navegación del footer">
           <div class="footer__nav-col">
             <span class="footer__nav-title">Explorar</span>
             <a href="#origen">Nuestra historia</a>
             <a href="#proceso">El proceso</a>
             <a href="#blends">Los blends</a>
+            <a href="#contacto">Contacto</a>
           </div>
           <div class="footer__nav-col">
             <span class="footer__nav-title">Contacto</span>
             <a href="mailto:hola@origencafe.com.ar">hola@origencafe.com.ar</a>
             <a href="#" aria-label="ORIGEN en Instagram">Instagram</a>
+            <a href="#" aria-label="ORIGEN en X (Twitter)">X (Twitter)</a>
           </div>
         </nav>
       </div>
       <div class="footer__bottom">
-        <span>© <time datetime="2025">2025</time> ORIGEN. Todos los derechos reservados.</span>
-        <span>Buenos Aires · Argentina</span>
+        <span>ORIGEN © <time datetime="2025">2025</time> · Buenos Aires, Argentina</span>
+        <span>Café de Especialidad · Tostado Artesanal</span>
       </div>
     </div>
   </footer>

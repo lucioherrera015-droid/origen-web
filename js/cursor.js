@@ -1,16 +1,15 @@
 /**
- * cursor.js
- * Custom cursor: dot + ring con lag suave.
- * Solo en dispositivos con mouse (hover:hover + pointer:fine).
+ * cursor.js v2
+ * — translate3d para forzar GPU layer (sin repaints)
+ * — RAF unificado: mousemove solo escribe vars, loop RAF aplica
+ * — AbortController para cleanup limpio de todos los listeners
  */
 (function () {
   'use strict';
 
-  // No inicializar en touch/mobile
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // ── Crear elementos ──────────────────────────
   const dot  = document.createElement('div');
   const ring = document.createElement('div');
   dot.id  = 'cursor-dot';
@@ -20,98 +19,90 @@
   document.body.appendChild(dot);
   document.body.appendChild(ring);
 
-  // ── Estado ───────────────────────────────────
-  let mouseX = -100, mouseY = -100;
-  let ringX  = -100, ringY  = -100;
+  // Pre-calcular mitades (evita recalcular en cada frame)
+  const DOT_HALF  = 3;   // mitad del dot (5px / 2 ≈ 3)
+  const RING_HALF = 19;  // mitad del ring (38px / 2)
+  const LERP = 0.11;
+
+  let mouseX = -200, mouseY = -200;
+  let ringX  = -200, ringY  = -200;
   let rafId  = null;
-  const LERP = 0.11; // factor de suavizado del ring (0 = sin lag, 1 = sin movimiento)
+  let isVisible = false;
 
-  // ── Posicionar dot inmediatamente ────────────
-  function setDot(x, y) {
-    dot.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
-  }
-
-  // ── Loop de animación para el ring ───────────
+  // ── Loop RAF unificado ───────────────────────
   function loop() {
+    // Dot: sigue exacto (translate3d para GPU composite layer)
+    dot.style.transform  = `translate3d(${mouseX - DOT_HALF}px, ${mouseY - DOT_HALF}px, 0)`;
+
+    // Ring: lerp suave
     ringX += (mouseX - ringX) * LERP;
     ringY += (mouseY - ringY) * LERP;
-    ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    ring.style.transform = `translate3d(${ringX - RING_HALF}px, ${ringY - RING_HALF}px, 0)`;
+
     rafId = requestAnimationFrame(loop);
   }
 
-  // ── Eventos de mouse ─────────────────────────
+  // ── AbortController para cleanup ─────────────
+  const ac  = new AbortController();
+  const sig = { signal: ac.signal };
+
+  // mousemove: SOLO actualiza variables (sin DOM writes)
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    setDot(mouseX, mouseY);
-
-    if (dot.classList.contains('hidden')) {
+    if (!isVisible) {
+      isVisible = true;
       dot.classList.remove('hidden');
       ring.classList.remove('hidden');
     }
-  });
+  }, { passive: true, ...sig });
 
   document.addEventListener('mouseenter', () => {
+    isVisible = true;
     dot.classList.remove('hidden');
     ring.classList.remove('hidden');
-  });
+  }, sig);
 
   document.addEventListener('mouseleave', () => {
+    isVisible = false;
     dot.classList.add('hidden');
     ring.classList.add('hidden');
-  });
+  }, sig);
 
   document.addEventListener('mousedown', () => {
     dot.classList.add('is-clicking');
     ring.classList.add('is-clicking');
-  });
+  }, sig);
 
   document.addEventListener('mouseup', () => {
     dot.classList.remove('is-clicking');
     ring.classList.remove('is-clicking');
-  });
+  }, sig);
 
-  // ── Hover states en elementos interactivos ───
-  const HOVER_SELECTORS = [
-    'a',
-    'button',
-    '.blend-card',
-    '.process__item',
-    '.nav__logo',
-    '[data-cursor-hover]',
-  ].join(',');
+  // ── Hover states (delegación) ─────────────────
+  const HOVER_SEL = 'a, button, .blend-card, .process__item, .timeline__img-wrap, .nav__logo, [data-cursor-hover]';
+  const LINK_SEL  = 'a, button';
 
-  const LINK_SELECTORS = ['a', 'button'].join(',');
-
-  // Delegación de eventos para mejor performance
   document.addEventListener('mouseover', (e) => {
-    const target = e.target.closest(HOVER_SELECTORS);
-    if (!target) return;
-
+    const t = e.target.closest(HOVER_SEL);
+    if (!t) return;
     ring.classList.add('is-hovering');
-    if (target.matches(LINK_SELECTORS)) {
-      ring.classList.add('is-link');
-    }
-  });
+    if (t.matches(LINK_SEL)) ring.classList.add('is-link');
+  }, sig);
 
   document.addEventListener('mouseout', (e) => {
-    const target = e.target.closest(HOVER_SELECTORS);
-    if (!target) return;
+    const t = e.target.closest(HOVER_SEL);
+    if (!t || t.contains(e.relatedTarget)) return;
+    ring.classList.remove('is-hovering', 'is-link');
+  }, sig);
 
-    const relatedTarget = e.relatedTarget;
-    // Solo quitar la clase si no seguimos dentro del mismo elemento
-    if (!target.contains(relatedTarget)) {
-      ring.classList.remove('is-hovering', 'is-link');
-    }
-  });
-
-  // ── Arrancar loop ────────────────────────────
+  // ── Arrancar ──────────────────────────────────
   loop();
 
-  // Exponer para poder destruirlo si fuera necesario
   window.__cursor = {
     destroy() {
       cancelAnimationFrame(rafId);
+      ac.abort();
       dot.remove();
       ring.remove();
     }
